@@ -1,6 +1,6 @@
 {
     "name": "up-hook"
-  , "version": "0.1.0"
+  , "version": "0.1.1"
   , "main": "./up-hook"
   , "dependencies": {
         "connect": "1.8.x"
