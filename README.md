@@ -10,6 +10,7 @@ through a git-hook.
 1. **Add the up-hook middleware**
 
     ```js
+    var uphook = require('up-hook');
     srv.use(uphook('/super-secret-url', { branch: 'master', cmd: 'make deploy' }));
     ```
 
