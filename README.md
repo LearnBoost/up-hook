@@ -13,8 +13,8 @@ through a git-hook.
     srv.use(uphook('/super-secret-url', { branch: 'master', cmd: 'make deploy' }));
     ```
 
-    In this case it's set up so that when you push to the master branh, it
-    will run `make deploy` and, if successful, it'll reload the server.
+    In this case it's set up so that when you push to the `master` branch,
+    it will run `make deploy` and, if successful, it'll reload the server.
 
 2. **Add the post-receive hook on GitHub**
 
