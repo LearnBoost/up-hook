@@ -1,0 +1,9 @@
+{
+    "name": "up-hook"
+  , "version": "0.1.0"
+  , "main": "./up-hook"
+  , "dependencies": {
+        "connect": "1.8.x"
+      , "debug": "0.5.0"
+    }
+}
