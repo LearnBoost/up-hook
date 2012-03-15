@@ -33,6 +33,20 @@ through a git-hook.
    "Bye")
 6. Your server will have been reloaded!
 
+## API
+
+```js
+uphook (url, opts, fn)
+```
+
+- `url`: secret url (path + query string) to capture
+- `opts`: options object
+ - **branch**: `String|false` branch to capture (`master`)
+ - **cmd**: `String` command to execute (`git pull`)
+ - **cwd**: `String` optional dir to execute process in
+- `fn` is called with an error if the command fails, or `null` if the
+  reload is triggered
+
 ## License
 
 Copyright (c) 2012 LearnBoost &lt;guillermo@learnboost.com&gt;
