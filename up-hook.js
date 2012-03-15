@@ -46,11 +46,18 @@ function exec (cmd, opts, fn) {
  *   - cmd: `String` command to execute (`git pull`)
  *   - cwd: `String` optional dir to execute process in
  *
- * @api {String} url
- * @api {Object} options
+ * @param {String} url
+ * @param {Object|Function} (optional) options, or callback
+ * @param {Function} (optional) callback
+ * @api public
  */
 
-function uphook (url, opts) {
+function uphook (url, opts, fn) {
+  if ('function' == typeof opts) {
+    fn = opts;
+    opts = {};
+  }
+
   var opts = opts || {}
     , branch = opts.branch || 'master'
     , cmd = opts.cmd || 'git pull'
@@ -74,16 +81,19 @@ function uphook (url, opts) {
 
         if (!branch || ('refs/heads/' + branch == payload.ref)) {
           debug('got commit to ref "%s" - reloading', payload.ref);
+
           if (cmd) {
             exec(cmd, { cwd: opts.cwd }, function (err) {
               if (!err) {
                 debug('command successful - reloading');
                 server.reload();
               }
+              fn && fn(err);
             });
           } else {
             debug('reloading');
             server.reload();
+            fn && fn(null);
           }
         } else {
           debug('ignoring commit to ref "%s"', payload.ref);
