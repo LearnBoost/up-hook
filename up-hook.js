@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -59,7 +58,7 @@ function uphook (url, opts, fn) {
   }
 
   var opts = opts || {}
-    , branch = opts.branch || 'master'
+    , branch = (branch = opts.branch) != null ? branch : opts.branch = 'master'
     , cmd = opts.cmd || 'git pull'
 
   return function (req, res, next) {
