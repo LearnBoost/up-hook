@@ -1,9 +1,13 @@
 {
-    "name": "up-hook"
-  , "version": "0.1.2"
-  , "main": "./up-hook"
-  , "dependencies": {
-        "connect": "2"
-      , "debug": "*"
+    "name": "up-hook",
+    "version": "0.1.2",
+    "main": "./up-hook",
+    "dependencies": {
+        "connect": "2",
+        "debug": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/LearnBoost/up-hook.git"
     }
 }
