@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -59,28 +58,41 @@ function uphook (url, opts, fn) {
   }
 
   var opts = opts || {}
-    , branch = opts.branch || 'master'
+    , branch = (branch = opts.branch) != null ? branch : opts.branch = 'master'
     , cmd = opts.cmd || 'git pull'
 
   return function (req, res, next) {
     if (url == req.url && 'POST' == req.method) {
       var server = this
         , payload
+        , ref
 
-      // get payload
+
       bodyParser(req, res, function (err) {
         if (err) return next(err);
 
         debug('got github payload "%s"', req.body.payload);
+        
+        // get payload
+        // look if body was already parsed
+        if (req.body && req.body.payload) {
+          if (typeof req.body.payload == 'string') {
+            try {
+              payload = JSON.parse(req.body.payload);
+              ref = payload.ref;
+            } catch (e) {
+              next(new Error('GitHub payload error'));  
+            }
+          };
 
-        try {
-          payload = JSON.parse(req.body.payload);
-        } catch (e) {
-          next(new Error('GitHub payload error'));
+          if (typeof req.body.payload == 'object') {
+            payload = req.body.payload;
+            ref = req.body.payload.ref;
+          }
         }
 
-        if (!branch || ('refs/heads/' + branch == payload.ref)) {
-          debug('got commit to ref "%s" - reloading', payload.ref);
+        if (!branch || ('refs/heads/' + branch == ref)) {
+          debug('got commit to ref "%s" - reloading', ref);
 
           if (cmd) {
             exec(cmd, { cwd: opts.cwd }, function (err) {
@@ -96,7 +108,7 @@ function uphook (url, opts, fn) {
             fn && fn(null);
           }
         } else {
-          debug('ignoring commit to ref "%s"', payload.ref);
+          debug('ignoring commit to ref "%s"', ref);
         }
 
         // respond
